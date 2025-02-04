@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CF4DB487-5C7C-475C-ABDF-F61F11B121BE}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>classExamples.Module1</StartupObject>
+    <StartupObject>classExamples.classExamples</StartupObject>
     <RootNamespace>classExamples</RootNamespace>
     <AssemblyName>classExamples</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -69,7 +69,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Module1.vb" />
+    <Compile Include="classExamples.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
