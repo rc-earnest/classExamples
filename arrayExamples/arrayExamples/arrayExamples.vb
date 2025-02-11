@@ -1,11 +1,13 @@
-﻿'Rudy Earnest
+﻿Option Strict On
+Option Explicit On
+Option Compare Text
+'Rudy Earnest
 'RCET 2265
 'Spring 2025
 'Name of Repo
 'https://github.com/rc-earnest/classExamples.git
-Option Strict On
-Option Explicit On
-Option Compare Text
+Imports System.Runtime.InteropServices
+
 Module arrayExamples
 
     Sub Main()
@@ -23,9 +25,9 @@ Module arrayExamples
 
         '    Next
 
-        MultiDimentionalArrays()
-
-
+        'MultiDimentionalArrays()'
+        'Console.WriteLine(randomNumberBetween(4, 1))'
+        testRandomness()
     End Sub
 
     Sub MultiDimentionalArrays()
@@ -45,4 +47,23 @@ Module arrayExamples
         Console.WriteLine()
     End Sub
 
+    Sub testRandomness()
+        Dim beanCounter(20) As Integer
+        For i = 1 To 100
+            beanCounter(randomNumberBetween(10, 3)) += 1
+        Next
+
+        For i = LBound(beanCounter) To UBound(beanCounter)
+            Console.WriteLine($"{CStr(i).PadLeft(4)} hit {beanCounter(i)} times!")
+        Next
+    End Sub
+
+    Function randomNumberBetween(min As Integer, max As Integer) As Integer
+        Randomize()
+        Dim randomNumber As Single
+        randomNumber = Rnd()
+        randomNumber *= max - min
+        randomNumber += min
+        Return CInt(randomNumber)
+    End Function
 End Module
