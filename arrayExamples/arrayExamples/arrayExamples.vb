@@ -27,7 +27,9 @@ Module arrayExamples
 
         'MultiDimentionalArrays()'
         'Console.WriteLine(randomNumberBetween(4, 1))'
-        testRandomness()
+        ' testRandomness()
+        splittingstringsintoarrays()
+
     End Sub
 
     Sub MultiDimentionalArrays()
@@ -49,8 +51,8 @@ Module arrayExamples
 
     Sub testRandomness()
         Dim beanCounter(20) As Integer
-        For i = 1 To 100
-            beanCounter(randomNumberBetween(10, 3)) += 1
+        For i = 1 To 1000000
+            beanCounter(randomNumberBetween(4, 10)) += 1
         Next
 
         For i = LBound(beanCounter) To UBound(beanCounter)
@@ -62,8 +64,22 @@ Module arrayExamples
         Randomize()
         Dim randomNumber As Single
         randomNumber = Rnd()
-        randomNumber *= max - min
-        randomNumber += min
-        Return CInt(randomNumber)
+        randomNumber *= max - min + 1
+        randomNumber += min - 1
+        Return CInt(Math.Ceiling(randomNumber))
     End Function
+
+
+
+
+    Sub splittingstringsintoarrays()
+        Dim lotsOfFruits As String = "grape, coconut, dragon fruit, tomato, lime, guava, mango, strawberry, pear"
+        Dim fruits() As String
+
+        fruits = Split(lotsOfFruits, ",")
+
+        For Each fruit In fruits
+            Console.WriteLine(Trim(fruit))
+        Next
+    End Sub
 End Module
