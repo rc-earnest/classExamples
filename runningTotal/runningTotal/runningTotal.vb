@@ -33,22 +33,24 @@ Module runningTotal
                         quit = True
                     Case "t"
                         Console.Clear()
-                        Console.WriteLine($"The current total is {RunningTotal(0, False).ToString("C")}")
-
+                        Console.WriteLine($"The current total is {RunningTotal().ToString("C")}")
+                        Console.WriteLine(StrDup(80, "*"))
                     Case "c"
                         Console.Clear()
-                        RunningTotal(0, True)
+                        RunningTotal(, True)
                 End Select
 
             End Try
         Loop Until quit
         Console.Clear()
-        Console.WriteLine($"The total is {RunningTotal(0, False).ToString("C")}")
+        Console.WriteLine($"The total is {RunningTotal().ToString("C")}")
+        Console.WriteLine($"The total's tax is {CalculateSalesTax(RunningTotal()).ToString("C")}")
         Console.WriteLine("Have a nice day!")
     End Sub
 
-    Function RunningTotal(currentNumber As Decimal, clear As Boolean) As Decimal
+    Function RunningTotal(Optional currentNumber As Decimal = 0, Optional clear As Boolean = False) As Decimal
         Static _runningTotal As Decimal
+
         If clear Then
             _runningTotal = 0
         Else
@@ -59,6 +61,10 @@ Module runningTotal
         Return _runningTotal
     End Function
 
+    Function CalculateSalesTax(amount As Decimal) As Decimal
+        Const TAXRATE = 0.06@
+        Return amount * TAXRATE
+    End Function
 
 
 End Module
