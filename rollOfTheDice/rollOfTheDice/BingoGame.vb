@@ -16,13 +16,13 @@ Module BingoGame
         Dim userInput As String
 
         Do
+            Console.Clear()
+            DisplayBoard()
+            Console.WriteLine()
             Console.WriteLine("Enter what you would like to do:")
             Console.WriteLine("q to quit")
             Console.WriteLine("d to draw a bingo ball")
             Console.WriteLine("c to clear game")
-            DisplayBoard()
-            Console.WriteLine()
-            'prompt
             userInput = Console.ReadLine()
             Select Case userInput
                 Case "d"
@@ -68,22 +68,29 @@ Module BingoGame
             Console.WriteLine()
         Next
     End Sub
-
+    ''' <summary>
+    ''' Gets two random numbers until they haven't been drawn then initializes bingo tracker to write those numbers to our tracker.
+    ''' </summary>
+    ''' <param name="clearCount">This clears the count of</param>
     Sub DrawBall(Optional clearCount As Boolean = False)
         Dim temp(,) As Boolean = BingoTracker(0, 0) 'create a local copy of ball tracker array
         Dim currentBallNumber As Integer
         Dim currentBallLetter As Integer
-        Dim ballCounter As Integer
-        'loop until the current random ball has not already been marked as drawn
-        Do
-            currentBallNumber = randomNumberBetween(0, 14) 'get the row
-            currentBallLetter = randomNumberBetween(0, 4) 'get the column
+        Static ballCounter As Integer
+        If clearCount Then
+            ballCounter = 0
+        Else
+            'loop until the current random ball has not already been marked as drawn
+            Do
+                currentBallNumber = randomNumberBetween(0, 14) 'get the row
+                currentBallLetter = randomNumberBetween(0, 4) 'get the column
 
-        Loop Until temp(currentBallNumber, currentBallLetter) = False Or ballCounter >= 75
-        ballCounter += 1
+            Loop Until temp(currentBallNumber, currentBallLetter) = False Or ballCounter >= 75
 
-        'mark current ball as being drawn, updates the display
-        BingoTracker(currentBallNumber, currentBallLetter, True)
+            'mark current ball as being drawn, updates the display
+            BingoTracker(currentBallNumber, currentBallLetter, True)
+            ballCounter += 1
+        End If
         Console.WriteLine($"the current row is {currentBallNumber} and the column is {currentBallLetter}")
     End Sub
     ''' <summary>
@@ -95,15 +102,17 @@ Module BingoGame
     ''' <param name="clear"></param>
     ''' <returns>Current Tracking Array</returns>
 
-    Function BingoTracker(ballNumber As Integer, ballLetter As Integer, Optional Update As Boolean = False, Optional clear As Boolean = False) As Boolean(,)
+    Function BingoTracker(ballNumber As Integer,
+                          ballLetter As Integer,
+                          Optional Update As Boolean = False,
+                          Optional clear As Boolean = False) _
+                          As Boolean(,)
         Static _bingoTracker(14, 4) As Boolean
-
-        If Update Then
-            _bingoTracker(ballNumber, ballLetter) = True
-        End If
 
         If clear Then
             ReDim _bingoTracker(14, 4)
+        ElseIf update Then
+            _bingoTracker(ballNumber, ballLetter) = True
         End If
 
         Return _bingoTracker
