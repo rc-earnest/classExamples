@@ -8,17 +8,20 @@ Option Explicit On
 '[x] Display Bingo Board
 '[x] Draw a random ball that has not already been drawn
 '[x] update display to show all drawn balls
-'[] update display to show actual ball number
-'[] refresh tracking with "C" or when all balls have been drawn 
+'[x] update display to show actual ball number
+'[x] refresh tracking with "C" or when all balls have been drawn 
 Module BingoGame
 
     Sub Main()
         Dim userInput As String
+        Dim _lastBall(1) As Integer
 
         Do
             Console.Clear()
             DisplayBoard()
             Console.WriteLine()
+            _lastBall = lastBall()
+            Console.WriteLine($"The Last ball was {FormatBallLetter(_lastBall(1))} {FormatBallNumber(_lastBall(0), 0)}")
             Console.WriteLine("Enter what you would like to do:")
             Console.WriteLine("q to quit")
             Console.WriteLine("d to draw a bingo ball")
@@ -43,26 +46,27 @@ Module BingoGame
     ''' </summary>
 
     Sub DisplayBoard()
-        Dim temp As String = " |"
+        Dim displayString As String
         Dim heading() As String = {"B", "I", "N", "G", "O"}
         Dim tracker(,) As Boolean = BingoTracker(0, 0)
+        Dim columnWidth As Integer = 5
 
         For Each letter In heading
-            Console.Write(letter.PadLeft(2).PadRight(4))
+            Console.Write(letter.PadLeft((columnWidth \ 2) + 1).PadRight(columnWidth))
         Next
 
         Console.WriteLine()
-        Console.WriteLine(StrDup(20, "_"))
+        Console.WriteLine(StrDup(columnWidth * 5, "_"))
 
         For currentNumber = 0 To 14
             For currentLetter = 0 To 4
                 If tracker(currentNumber, currentLetter) Then
-                    temp = "X |" 'display for drawn balls
+                    displayString = $"{FormatBallNumber(currentNumber, currentLetter)} |" 'display for drawn balls
                 Else
-                    temp = " |" 'display for not drawn balls
+                    displayString = "|" 'display for not drawn balls
                 End If
-                temp = temp.PadLeft(4)
-                Console.Write(temp)
+                displayString = displayString.PadLeft(columnWidth)
+                Console.Write(displayString)
 
             Next
             Console.WriteLine()
@@ -91,8 +95,19 @@ Module BingoGame
             BingoTracker(currentBallNumber, currentBallLetter, True)
             ballCounter += 1
         End If
-        Console.WriteLine($"the current row is {currentBallNumber} and the column is {currentBallLetter}")
+        lastBall(currentBallNumber, currentBallLetter)
+        'Console.WriteLine($"the current row is {currentBallNumber} and the column is {currentBallLetter}")
     End Sub
+    Function lastBall(Optional ballNumber As Integer = -1, Optional ballLetter As Integer = -1) As Integer()
+        Static _lastBall(1) As Integer
+
+        If ballNumber <> -1 Then
+            _lastBall(0) = ballNumber
+            _lastBall(1) = ballLetter
+        End If
+
+        Return _lastBall
+    End Function
     ''' <summary>
     ''' Contains a persistant array that tracks all possible bingo balls 
     ''' and whether they have been drawn during the current game.
@@ -118,6 +133,12 @@ Module BingoGame
         Return _bingoTracker
     End Function
 
+    Function FormatBallNumber(ballNumber As Integer, ballLetter As Integer) As String
+        Dim _ballNumber As String
+        _ballNumber = Str((ballNumber + 1) + (ballLetter * 15))
+        Return _ballNumber
+    End Function
+
     Function randomNumberBetween(min As Integer, max As Integer) As Integer
         Randomize()
         Dim randomNumber As Single
@@ -125,5 +146,22 @@ Module BingoGame
         randomNumber *= max - min + 1
         randomNumber += min - 1
         Return CInt(Math.Ceiling(randomNumber))
+    End Function
+
+    Function FormatBallLetter(ballLetter As Integer) As String
+        Dim _formatBallLetter As String
+        Select Case ballLetter
+            Case 0
+                _formatBallLetter = "B"
+            Case 1
+                _formatBallLetter = "I"
+            Case 2
+                _formatBallLetter = "N"
+            Case 3
+                _formatBallLetter = "G"
+            Case 4
+                _formatBallLetter = "O"
+        End Select
+        Return _formatBallLetter
     End Function
 End Module
