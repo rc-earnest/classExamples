@@ -22,14 +22,6 @@ Public Class GraphicsExamples
     End Sub
 
     ' Event Handlers ----------------------------------------------------------
-    Private Sub GraphicsExamplesForm_Click(sender As Object, e As EventArgs) 'Handles Me.Click
-        Me.Refresh()
-        DrawLine()
-        DrawRectangle()
-        DrawEllipse()
-        DrawString()
-    End Sub
-
     Private Sub GraphicsExamplesForm_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove, Me.MouseDown
         Static oldX, oldY As Integer
         Me.Text = $"({e.X},{e.Y}) {e.Button.ToString} FG {ForeGroundColor.ToString}"
