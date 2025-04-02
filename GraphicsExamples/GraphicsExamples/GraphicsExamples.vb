@@ -1,82 +1,60 @@
 ﻿
 'Spring 2025
 Public Class GraphicsExamples
-    Function ForeGroundColor()
+    Function ForeGroundColor(Optional newColor As Color = Nothing) As Color
+        Static _foreColor As Color = Color.Black
 
+        If newColor <> Nothing Then
+            _foreColor = newColor
+        End If
+
+        Return _foreColor
     End Function
 
     Sub DrawWithMouse(oldX As Integer, oldY As Integer, newX As Integer, newY As Integer)
         Dim g As Graphics = Me.CreateGraphics
-        Dim pen As New Pen(Color.Black)
+        Dim pen As New Pen(ForeGroundColor)
 
 
         g.DrawLine(pen, oldX, oldY, newX, newY)
 
         g.Dispose()
     End Sub
-    Sub DrawLine()
-        Dim g As Graphics = Me.CreateGraphics
-        Dim pen As New Pen(Color.Black)
-
-        'pen.Color = Color.Lime
-
-        g.DrawLine(pen, 50, 50, 100, 100)
-
-        g.Dispose()
-    End Sub
-
-    Sub DrawRectangle()
-        Dim g As Graphics = Me.CreateGraphics
-        Dim pen As New Pen(Color.Red, 3)
-
-        g.DrawRectangle(pen, 150, 150, 300, 250)
-
-        g.Dispose()
-    End Sub
-
-    Sub DrawEllipse()
-        Dim g As Graphics = Me.CreateGraphics
-        Dim pen As New Pen(Color.RoyalBlue, 5)
-
-        g.DrawEllipse(pen, 160, 160, 280, 230)
-
-        g.Dispose()
-    End Sub
-
-    Sub DrawString()
-        Dim g As Graphics = Me.CreateGraphics
-        Dim pen As New Pen(Color.Red, 3)
-        ' Create font and brush.
-        Dim drawFont As New Font("Arial", 16)
-        Dim drawBrush As New SolidBrush(Color.Crimson)
-
-
-        g.DrawString("Graphics!", drawFont, drawBrush, 200, 200)
-
-        g.Dispose()
-    End Sub
 
     ' Event Handlers ----------------------------------------------------------
-
-    Private Sub GraphicsExamples_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove
-        Static oldX, oldY As Integer
-        Me.Text = $"({e.X},{e.Y})"
-        DrawWithMouse(oldX, oldY, e.X, e.Y)
-        oldX = e.X
-        oldY = e.Y
-    End Sub
-
-    Private Sub GraphicsExamples_Click(sender As Object, e As EventArgs) Handles Me.Click
+    Private Sub GraphicsExamplesForm_Click(sender As Object, e As EventArgs) 'Handles Me.Click
+        Me.Refresh()
         DrawLine()
         DrawRectangle()
         DrawEllipse()
         DrawString()
     End Sub
 
+    Private Sub GraphicsExamplesForm_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove, Me.MouseDown
+        Static oldX, oldY As Integer
+        Me.Text = $"({e.X},{e.Y}) {e.Button.ToString} FG {ForeGroundColor.ToString}"
+        'TODO only draw when button is held down
+        Select Case e.Button.ToString
+            Case "Left"
+                DrawWithMouse(oldX, oldY, e.X, e.Y)
+            Case "Right"
+                'ignore
+            Case "Middle"
+                'TODO
+        End Select
 
-    'Private Sub ForeGroundColorToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ForeGroundColorToolStripMenuItem.Click
-    '    Dim result As DialogResult = ColorDialog.ShowDialog()
-    '    MsgBox(result.ToString)
-    '    ForeGroundColor(ColorDialog.Color)
-    'End Sub
+        oldX = e.X
+        oldY = e.Y
+    End Sub
+
+    Private Sub ChangeForegroundColor(sender As Object, e As EventArgs) Handles ForeGroundColorTopMenuItem.Click, ForegroundColorContextMenuItem.Click
+        Dim result As DialogResult = ColorDialog.ShowDialog()
+        If result.ToString = "OK" Then
+            ForeGroundColor(ColorDialog.Color)
+        End If
+    End Sub
+
+    Private Sub ClearContextMenuItem_Click(sender As Object, e As EventArgs) Handles ClearContextMenuItem.Click
+        Me.Refresh()
+    End Sub
 End Class
