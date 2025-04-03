@@ -11,8 +11,19 @@ Public Class GraphicsExamples
         Return _foreColor
     End Function
 
+    Function BackGroundColor(Optional newColor As Color = Nothing) As Color
+        Static _backColor As Color = Color.White
+
+        If newColor <> Nothing Then
+            _backColor = newColor
+        End If
+
+        Return _backColor
+    End Function
+
+
     Sub DrawWithMouse(oldX As Integer, oldY As Integer, newX As Integer, newY As Integer)
-        Dim g As Graphics = Me.CreateGraphics
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
         Dim pen As New Pen(ForeGroundColor)
 
 
@@ -22,7 +33,7 @@ Public Class GraphicsExamples
     End Sub
 
     ' Event Handlers ----------------------------------------------------------
-    Private Sub GraphicsExamplesForm_MouseMove(sender As Object, e As MouseEventArgs) Handles Me.MouseMove, Me.MouseDown
+    Private Sub GraphicsExamplesForm_MouseMove(sender As Object, e As MouseEventArgs) Handles DrawingPictureBox.MouseMove, DrawingPictureBox.MouseDown
         Static oldX, oldY As Integer
         Me.Text = $"({e.X},{e.Y}) {e.Button.ToString} FG {ForeGroundColor.ToString}"
         'TODO only draw when button is held down
@@ -47,6 +58,13 @@ Public Class GraphicsExamples
     End Sub
 
     Private Sub ClearContextMenuItem_Click(sender As Object, e As EventArgs) Handles ClearContextMenuItem.Click
-        Me.Refresh()
+        DrawingPictureBox.Refresh()
+    End Sub
+
+    Private Sub BackgroundColorContextMenuItem_Click(sender As Object, e As EventArgs) Handles BackgroundColorContextMenuItem.Click, BackgroundColorToolStripMenuItem.Click
+        Dim result As DialogResult = ColorDialog.ShowDialog()
+        If result.ToString = "OK" Then
+            DrawingPictureBox.BackColor = BackGroundColor(ColorDialog.Color)
+        End If
     End Sub
 End Class

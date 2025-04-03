@@ -35,8 +35,11 @@ Partial Class GraphicsExamples
         Me.WidthContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FontContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ClearContextMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DrawingPictureBox = New System.Windows.Forms.PictureBox()
+        Me.BackgroundColorToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip.SuspendLayout()
         Me.MainContextMenuStrip.SuspendLayout()
+        CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip
@@ -57,7 +60,7 @@ Partial Class GraphicsExamples
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForeGroundColorTopMenuItem})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForeGroundColorTopMenuItem, Me.BackgroundColorToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
         Me.EditToolStripMenuItem.Text = "Edit"
@@ -65,8 +68,8 @@ Partial Class GraphicsExamples
         'ForeGroundColorTopMenuItem
         '
         Me.ForeGroundColorTopMenuItem.Name = "ForeGroundColorTopMenuItem"
-        Me.ForeGroundColorTopMenuItem.Size = New System.Drawing.Size(214, 26)
-        Me.ForeGroundColorTopMenuItem.Text = "Fore Ground Color"
+        Me.ForeGroundColorTopMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.ForeGroundColorTopMenuItem.Text = "&Foreground Color"
         '
         'HelpToolStripMenuItem
         '
@@ -79,7 +82,7 @@ Partial Class GraphicsExamples
         Me.MainContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MainContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ForegroundColorContextMenuItem, Me.BackgroundColorContextMenuItem, Me.WidthContextMenuItem, Me.FontContextMenuItem, Me.ClearContextMenuItem})
         Me.MainContextMenuStrip.Name = "MainContextMenuStrip"
-        Me.MainContextMenuStrip.Size = New System.Drawing.Size(211, 152)
+        Me.MainContextMenuStrip.Size = New System.Drawing.Size(198, 124)
         '
         'ForegroundColorContextMenuItem
         '
@@ -111,12 +114,32 @@ Partial Class GraphicsExamples
         Me.ClearContextMenuItem.Size = New System.Drawing.Size(210, 24)
         Me.ClearContextMenuItem.Text = "Clear"
         '
+        'DrawingPictureBox
+        '
+        Me.DrawingPictureBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DrawingPictureBox.BackColor = System.Drawing.Color.White
+        Me.DrawingPictureBox.Cursor = System.Windows.Forms.Cursors.Cross
+        Me.DrawingPictureBox.Location = New System.Drawing.Point(0, 31)
+        Me.DrawingPictureBox.Name = "DrawingPictureBox"
+        Me.DrawingPictureBox.Size = New System.Drawing.Size(800, 305)
+        Me.DrawingPictureBox.TabIndex = 1
+        Me.DrawingPictureBox.TabStop = False
+        '
+        'BackgroundColorToolStripMenuItem
+        '
+        Me.BackgroundColorToolStripMenuItem.Name = "BackgroundColorToolStripMenuItem"
+        Me.BackgroundColorToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.BackgroundColorToolStripMenuItem.Text = "&Background Color"
+        '
         'GraphicsExamples
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.ContextMenuStrip = Me.MainContextMenuStrip
+        Me.Controls.Add(Me.DrawingPictureBox)
         Me.Controls.Add(Me.MenuStrip)
         Me.MainMenuStrip = Me.MenuStrip
         Me.Name = "GraphicsExamples"
@@ -125,6 +148,7 @@ Partial Class GraphicsExamples
         Me.MenuStrip.ResumeLayout(False)
         Me.MenuStrip.PerformLayout()
         Me.MainContextMenuStrip.ResumeLayout(False)
+        CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -142,4 +166,6 @@ Partial Class GraphicsExamples
     Friend WithEvents WidthContextMenuItem As ToolStripMenuItem
     Friend WithEvents FontContextMenuItem As ToolStripMenuItem
     Friend WithEvents ClearContextMenuItem As ToolStripMenuItem
+    Friend WithEvents DrawingPictureBox As PictureBox
+    Friend WithEvents BackgroundColorToolStripMenuItem As ToolStripMenuItem
 End Class
