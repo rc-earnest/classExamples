@@ -10,6 +10,18 @@ Public Class GraphicsExamples
 
         Return _foreColor
     End Function
+    Function PenWidth(Optional newWidth As Integer = -1) As Integer
+        Static _penWidth As Integer = 1
+        If newWidth > 100 Then
+            _penWidth = 100
+        ElseIf newWidth > 0 Then
+            _penWidth = newWidth
+        End If
+
+
+
+        Return _penWidth
+    End Function
 
     Function BackGroundColor(Optional newColor As Color = Nothing) As Color
         Static _backColor As Color = Color.White
@@ -24,7 +36,7 @@ Public Class GraphicsExamples
 
     Sub DrawWithMouse(oldX As Integer, oldY As Integer, newX As Integer, newY As Integer)
         Dim g As Graphics = DrawingPictureBox.CreateGraphics
-        Dim pen As New Pen(ForeGroundColor)
+        Dim pen As New Pen(ForeGroundColor, PenWidth)
 
 
         g.DrawLine(pen, oldX, oldY, newX, newY)
