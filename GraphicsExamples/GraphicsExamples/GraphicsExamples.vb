@@ -1,5 +1,8 @@
 ﻿
 'Spring 2025
+Option Explicit On
+Option Strict On
+
 Public Class GraphicsExamples
     Function ForeGroundColor(Optional newColor As Color = Nothing) As Color
         Static _foreColor As Color = Color.Black
@@ -40,6 +43,26 @@ Public Class GraphicsExamples
 
 
         g.DrawLine(pen, oldX, oldY, newX, newY)
+
+        g.Dispose()
+    End Sub
+
+    Sub DrawSinWave()
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        Dim pen As New Pen(Color.IndianRed)
+        Dim oldx, oldY, newY As Integer
+        Dim yOffset = DrawingPictureBox.Height \ 2
+        Dim yMax As Integer = yOffset
+        Dim degreesPerPoint As Double = 360 / DrawingPictureBox.Width
+        oldY = yOffset
+        yMax *= -1
+        yMax = yMax + 1
+        For x = 0 To DrawingPictureBox.Width
+            newY = CInt(yMax * Math.Sin((x * degreesPerPoint) * (Math.PI / 180))) + yOffset
+            g.DrawLine(pen, oldx, oldY, x, newY)
+            oldx = x
+            oldY = newY
+        Next
 
         g.Dispose()
     End Sub
@@ -92,5 +115,9 @@ Public Class GraphicsExamples
     Private Sub GraphicsExamples_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         SplashForm.Show()
         Me.Hide()
+    End Sub
+
+    Private Sub SinWaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SinWaveToolStripMenuItem.Click
+        DrawSinWave()
     End Sub
 End Class
