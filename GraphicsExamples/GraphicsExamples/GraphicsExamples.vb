@@ -2,7 +2,9 @@
 'Spring 2025
 Option Explicit On
 Option Strict On
-
+Imports System.Media
+Imports System.Runtime.CompilerServices
+Imports System.Threading.Thread
 Public Class GraphicsExamples
     Function ForeGroundColor(Optional newColor As Color = Nothing) As Color
         Static _foreColor As Color = Color.Black
@@ -70,6 +72,8 @@ Public Class GraphicsExamples
     ' Event Handlers ----------------------------------------------------------
     Private Sub GraphicsExamplesForm_MouseMove(sender As Object, e As MouseEventArgs) Handles DrawingPictureBox.MouseMove, DrawingPictureBox.MouseDown
         Static oldX, oldY As Integer
+        Dim middleX As Integer
+        Dim height As Integer
         Me.Text = $"({e.X},{e.Y}) {e.Button.ToString} FG {ForeGroundColor.ToString}"
         'TODO only draw when button is held down
         Select Case e.Button.ToString
@@ -78,7 +82,11 @@ Public Class GraphicsExamples
             Case "Right"
                 'ignore
             Case "Middle"
-                'TODO
+                'manual draw a line from the middle top to bottom
+                middleX = DrawingPictureBox.Width \ 2
+                height = DrawingPictureBox.Height
+                DrawWithMouse(e.X, 0, e.X, height)
+                DrawWithMouse(0, height \ 2, DrawingPictureBox.Width, height \ 2)
         End Select
 
         oldX = e.X
@@ -93,6 +101,18 @@ Public Class GraphicsExamples
     End Sub
 
     Private Sub ClearContextMenuItem_Click(sender As Object, e As EventArgs) Handles ClearContextMenuItem.Click
+        Dim fudge As Integer = 20
+        Try
+            My.Computer.Audio.Play(My.Resources.shaker, AudioPlayMode.Background)
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
+        For i = 1 To 25
+            Me.Top += fudge
+            Me.Left += fudge
+            Sleep(50)
+            fudge *= -1
+        Next
         DrawingPictureBox.Refresh()
     End Sub
 
