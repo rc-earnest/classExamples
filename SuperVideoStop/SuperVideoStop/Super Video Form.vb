@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Option Strict On
+Imports System.IO
 
 Public Class SuperVideoForm
     Sub ReadFromFile()
@@ -69,6 +70,35 @@ Public Class SuperVideoForm
 
     End Sub
 
+    Sub LoadCustomerData()
+        Dim filePath As String = "..\..CustomerDat.dat"
+        Dim fileNumber As Integer = FreeFile()
+        Dim currentRecord As String
+        Dim invalidFileName As Boolean = True
+
+        Do
+            Try
+                FileOpen(fileNumber, filePath, OpenMode.Input)
+                invalidFileName = False
+                Do Until EOF(fileNumber)
+                    Input(fileNumber, currentRecord)
+                    MsgBox(currentRecord)
+                Loop
+            Catch noFile As FileNotFoundException
+                invalidFileName = True
+                OpenFileDialog.FileName = ""
+                OpenFileDialog.InitialDirectory = "C:\Users\rudyd\github\classExamples\SuperVideoStop\SuperVideoStop\bin\Debug"
+                OpenFileDialog.Filter = "Text documents (.txt)|*.txt|All files(*.*)|*.*"
+                OpenFileDialog.ShowDialog()
+                filePath = OpenFileDialog.FileName
+                MsgBox(noFile.Message)
+
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Loop While invalidFileName
+    End Sub
+
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
         Me.Close()
     End Sub
@@ -77,4 +107,7 @@ Public Class SuperVideoForm
         ReadFromFile()
     End Sub
 
+    Private Sub OpenTopMenuItem_Click(sender As Object, e As EventArgs) Handles OpenTopMenuItem.Click
+        LoadCustomerData()
+    End Sub
 End Class
